@@ -14,7 +14,12 @@ export const AppDataSource = new DataSource({
   ...(process.env.DATABASE_URL
     ? {
         url: process.env.DATABASE_URL,
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+        ssl:
+          process.env.NODE_ENV === 'production' ||
+          (!process.env.DATABASE_URL.includes('localhost') &&
+            !process.env.DATABASE_URL.includes('127.0.0.1'))
+            ? { rejectUnauthorized: false }
+            : false,
       }
     : {
         host: process.env.DB_HOST || 'localhost',
@@ -22,7 +27,13 @@ export const AppDataSource = new DataSource({
         username: process.env.DB_USERNAME || '360urban',
         password: process.env.DB_PASSWORD || 'postgres123',
         database: process.env.DB_NAME || '360urban_db',
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+        ssl:
+          process.env.NODE_ENV === 'production' ||
+          (process.env.DB_HOST &&
+            process.env.DB_HOST !== 'localhost' &&
+            process.env.DB_HOST !== '127.0.0.1')
+            ? { rejectUnauthorized: false }
+            : false,
       }),
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',

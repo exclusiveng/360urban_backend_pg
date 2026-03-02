@@ -11,6 +11,7 @@ import type { Property } from './Property.js';
 import type { ContactInquiry } from './ContactInquiry.js';
 import type { Favorite } from './Favorite.js';
 
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
