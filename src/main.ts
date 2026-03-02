@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
+import morgan from 'morgan';
 import { AppDataSource } from './config/database.js';
 import { config } from './config/config.js';
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js';
@@ -14,6 +15,9 @@ import inquiryRoutes from './routes/inquiryRoutes.js';
 import { setupCronJobs } from './utils/cron.js';
 
 const app = express();
+
+// Request logging
+app.use(morgan('dev'));
 
 // Security middleware
 app.use(
