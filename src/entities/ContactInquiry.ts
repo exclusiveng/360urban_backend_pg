@@ -7,8 +7,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { InquiryStatus } from './constants.js';
-import { Property } from './Property.js';
-import { User } from './User.js';
+import type { Property } from './Property.js';
+import type { User } from './User.js';
 
 @Entity('contact_inquiries')
 export class ContactInquiry {
@@ -35,7 +35,7 @@ export class ContactInquiry {
   createdAt: Date;
 
   // Relations
-  @ManyToOne(() => Property, (property) => property.inquiries, {
+  @ManyToOne('Property', 'inquiries', {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'propertyId' })
@@ -44,7 +44,7 @@ export class ContactInquiry {
   @Column('uuid')
   propertyId: string;
 
-  @ManyToOne(() => User, (user) => user.inquiries, {
+  @ManyToOne('User', 'inquiries', {
     nullable: true,
     onDelete: 'SET NULL',
   })

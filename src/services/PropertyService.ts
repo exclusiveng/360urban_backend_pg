@@ -1,8 +1,9 @@
 import { AppDataSource } from '../config/database.js';
-import { Property, PropertyCategory, PropertyStatus, PropertyType } from '../entities/Property.js';
+import { PropertyCategory, PropertyStatus, PropertyType, UserRole } from '../entities/constants.js';
+import { Property } from '../entities/Property.js';
 import { Area } from '../entities/Area.js';
 import { PropertyImage } from '../entities/PropertyImage.js';
-import { User, UserRole } from '../entities/User.js';
+import { User } from '../entities/User.js';
 import { AppError } from '../utils/errors.js';
 import { generateSlug, getPaginationParams } from '../utils/validators.js';
 import { PaginatedResponse } from '../types/index.js';

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { PropertyService } from '../services/PropertyService.js';
 import { asyncHandler } from '../utils/errors.js';
-import { PropertyCategory, PropertyType, PropertyStatus } from '../entities/Property.js';
+import { PropertyCategory, PropertyType, PropertyStatus } from '../entities/constants.js';
 
 const propertyService = new PropertyService();
 
@@ -14,12 +14,24 @@ export const createProperty = asyncHandler(
       });
     }
 
-    const { title, description, category, propertyType, price, address, city, state, areaId, ...rest } = req.body;
+    const {
+      title,
+      description,
+      category,
+      propertyType,
+      price,
+      address,
+      city,
+      state,
+      areaId,
+      ...rest
+    } = req.body;
 
     if (!title || !description || !category || !propertyType || !price || !address || !areaId) {
       return res.status(400).json({
         success: false,
-        message: 'Missing required fields (title, description, category, propertyType, price, address, or areaId)',
+        message:
+          'Missing required fields (title, description, category, propertyType, price, address, or areaId)',
       });
     }
 
@@ -30,8 +42,8 @@ export const createProperty = asyncHandler(
         (file) => `${req.protocol}://${req.get('host')}/uploads/properties/${file.filename}`
       );
     } else if (req.body.images && Array.isArray(req.body.images)) {
-        // Fallback for existing URL support if any
-        imageUrls = req.body.images;
+      // Fallback for existing URL support if any
+      imageUrls = req.body.images;
     }
 
     const property = await propertyService.createProperty(
@@ -78,7 +90,9 @@ export const getProperties = asyncHandler(
 
     // Remove undefined filters
     Object.keys(filters).forEach(
-      (key) => filters[key as keyof typeof filters] === undefined && delete filters[key as keyof typeof filters]
+      (key) =>
+        filters[key as keyof typeof filters] === undefined &&
+        delete filters[key as keyof typeof filters]
     );
 
     const result = await propertyService.getProperties(filters);
@@ -129,28 +143,28 @@ export const updateProperty = asyncHandler(
     }
 
     const { id } = req.params;
-    
+
     // Handle image updates
     let updateData = { ...req.body };
-    
+
     if (req.files && Array.isArray(req.files) && req.files.length > 0) {
-       const newImageUrls = (req.files as Express.Multer.File[]).map(
+      const newImageUrls = (req.files as Express.Multer.File[]).map(
         (file) => `${req.protocol}://${req.get('host')}/uploads/properties/${file.filename}`
       );
-      // Determine how to handle existing images. For now, let's assume if new files are uploaded, 
-      // we might want to append or replace. 
+      // Determine how to handle existing images. For now, let's assume if new files are uploaded,
+      // we might want to append or replace.
       // If the frontend sends 'existingImages', we could merge them.
       // But PropertyService logic might need adjustment.
       // For simplicity, we'll pass the new images. The service might need to handle merging if required.
       // However, typically an update might be "add these images".
       // Let's assume we pass "images" and valid fields.
-      
+
       // If we want to ADD to existing, we need to fetch existing first, or handle in service.
       // If request has `images` from body (existing URLs) AND files (new), we merge.
-      
+
       let existingImages = req.body.existingImages || [];
       if (typeof existingImages === 'string') existingImages = [existingImages];
-      
+
       updateData.images = [...existingImages, ...newImageUrls];
     }
 

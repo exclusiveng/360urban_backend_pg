@@ -1,5 +1,6 @@
 import { AppDataSource } from '../config/database.js';
-import { ContactInquiry, InquiryStatus } from '../entities/ContactInquiry.js';
+import { InquiryStatus } from '../entities/constants.js';
+import { ContactInquiry } from '../entities/ContactInquiry.js';
 import { Property } from '../entities/Property.js';
 import { AppError } from '../utils/errors.js';
 import { validateEmail } from '../utils/validators.js';
@@ -48,18 +49,13 @@ export class ContactInquiryService {
     return this.inquiryRepository.save(inquiry);
   }
 
-  async getInquiries(
-    filters?: {
-      page?: number;
-      limit?: number;
-      status?: InquiryStatus;
-      propertyId?: string;
-    }
-  ): Promise<PaginatedResponse<ContactInquiry>> {
-    const { page, limit } = getPaginationParams(
-      filters?.page,
-      filters?.limit
-    );
+  async getInquiries(filters?: {
+    page?: number;
+    limit?: number;
+    status?: InquiryStatus;
+    propertyId?: string;
+  }): Promise<PaginatedResponse<ContactInquiry>> {
+    const { page, limit } = getPaginationParams(filters?.page, filters?.limit);
 
     let query = this.inquiryRepository.createQueryBuilder('inquiry');
 
@@ -93,10 +89,7 @@ export class ContactInquiryService {
     };
   }
 
-  async updateInquiryStatus(
-    inquiryId: string,
-    status: InquiryStatus
-  ): Promise<ContactInquiry> {
+  async updateInquiryStatus(inquiryId: string, status: InquiryStatus): Promise<ContactInquiry> {
     const inquiry = await this.inquiryRepository.findOne({
       where: { id: inquiryId },
     });

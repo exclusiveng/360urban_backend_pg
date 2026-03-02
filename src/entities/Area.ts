@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Property } from './Property.js';
+import type { Property } from './Property.js';
 
 @Entity('areas')
 export class Area {
@@ -32,6 +32,6 @@ export class Area {
   updatedAt: Date;
 
   // Relations
-  @OneToMany(() => Property, (property) => property.area)
+  @OneToMany('Property', 'area')
   properties: Property[];
 }

@@ -7,8 +7,8 @@ import {
   Unique,
   Column,
 } from 'typeorm';
-import { Property } from './Property.js';
-import { User } from './User.js';
+import type { Property } from './Property.js';
+import type { User } from './User.js';
 
 @Entity('favorites')
 @Unique(['userId', 'propertyId'])
@@ -20,7 +20,7 @@ export class Favorite {
   createdAt: Date;
 
   // Relations
-  @ManyToOne(() => User, (user) => user.favorites, {
+  @ManyToOne('User', 'favorites', {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'userId' })
@@ -29,7 +29,7 @@ export class Favorite {
   @Column('uuid')
   userId: string;
 
-  @ManyToOne(() => Property, (property) => property.favorites, {
+  @ManyToOne('Property', 'favorites', {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'propertyId' })

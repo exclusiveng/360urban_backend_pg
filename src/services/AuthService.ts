@@ -1,13 +1,10 @@
 import bcrypt from 'bcrypt';
 import { AppDataSource } from '../config/database.js';
-import { User, UserRole } from '../entities/User.js';
+import { UserRole } from '../entities/constants.js';
+import { User } from '../entities/User.js';
 import { AppError } from '../utils/errors.js';
 import { validateEmail, validatePasswordStrength } from '../utils/validators.js';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken,
-} from '../utils/jwt.js';
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
 import { config } from '../config/config.js';
 import { JwtPayload, AuthResponse } from '../types/index.js';
 
@@ -43,10 +40,7 @@ export class AuthService {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(
-      password,
-      config.bcrypt.rounds
-    );
+    const hashedPassword = await bcrypt.hash(password, config.bcrypt.rounds);
 
     // Create user
     const user = this.userRepository.create({
@@ -171,11 +165,7 @@ export class AuthService {
     }
   }
 
-  async changePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ): Promise<void> {
+  async changePassword(userId: string, oldPassword: string, newPassword: string): Promise<void> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });

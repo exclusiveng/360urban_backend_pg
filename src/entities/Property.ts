@@ -9,11 +9,11 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { PropertyCategory, PropertyStatus, PropertyType } from './constants.js';
-import { User } from './User.js';
-import { Area } from './Area.js';
-import { PropertyImage } from './PropertyImage.js';
-import { Favorite } from './Favorite.js';
-import { ContactInquiry } from './ContactInquiry.js';
+import type { User } from './User.js';
+import type { Area } from './Area.js';
+import type { PropertyImage } from './PropertyImage.js';
+import type { Favorite } from './Favorite.js';
+import type { ContactInquiry } from './ContactInquiry.js';
 
 @Entity('properties')
 export class Property {
@@ -97,26 +97,26 @@ export class Property {
   updatedAt: Date;
 
   // Relations
-  @ManyToOne(() => User, (user) => user.properties)
+  @ManyToOne('User', 'properties')
   @JoinColumn({ name: 'ownerId' })
   owner: User;
 
   @Column('uuid')
   ownerId: string;
 
-  @ManyToOne(() => Area)
+  @ManyToOne('Area', 'properties')
   @JoinColumn({ name: 'areaId' })
   area: Area;
 
   @Column('uuid')
   areaId: string;
 
-  @OneToMany(() => PropertyImage, (image) => image.property)
+  @OneToMany('PropertyImage', 'property')
   images: PropertyImage[];
 
-  @OneToMany(() => Favorite, (favorite) => favorite.property)
+  @OneToMany('Favorite', 'property')
   favorites: Favorite[];
 
-  @OneToMany(() => ContactInquiry, (inquiry) => inquiry.property)
+  @OneToMany('ContactInquiry', 'property')
   inquiries: ContactInquiry[];
 }

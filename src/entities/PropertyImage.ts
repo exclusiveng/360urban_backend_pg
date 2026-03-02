@@ -6,7 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Property } from './Property.js';
+import type { Property } from './Property.js';
 
 @Entity('property_images')
 export class PropertyImage {
@@ -23,7 +23,7 @@ export class PropertyImage {
   createdAt: Date;
 
   // Relations
-  @ManyToOne(() => Property, (property) => property.images, {
+  @ManyToOne('Property', 'images', {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'propertyId' })

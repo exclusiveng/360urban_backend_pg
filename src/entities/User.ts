@@ -7,9 +7,9 @@ import {
   OneToMany,
 } from 'typeorm';
 import { UserRole } from './constants.js';
-import { Property } from './Property.js';
-import { ContactInquiry } from './ContactInquiry.js';
-import { Favorite } from './Favorite.js';
+import type { Property } from './Property.js';
+import type { ContactInquiry } from './ContactInquiry.js';
+import type { Favorite } from './Favorite.js';
 
 @Entity('users')
 export class User {
@@ -51,12 +51,12 @@ export class User {
   updatedAt: Date;
 
   // Relations
-  @OneToMany(() => Property, (property) => property.owner)
+  @OneToMany('Property', 'owner')
   properties: Property[];
 
-  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  @OneToMany('Favorite', 'user')
   favorites: Favorite[];
 
-  @OneToMany(() => ContactInquiry, (inquiry) => inquiry.user)
+  @OneToMany('ContactInquiry', 'user')
   inquiries: ContactInquiry[];
 }

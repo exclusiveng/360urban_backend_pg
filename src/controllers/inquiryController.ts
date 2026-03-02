@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ContactInquiryService } from '../services/ContactInquiryService.js';
 import { asyncHandler } from '../utils/errors.js';
-import { InquiryStatus } from '../entities/ContactInquiry.js';
+import { InquiryStatus } from '../entities/constants.js';
 
 const inquiryService = new ContactInquiryService();
 
@@ -42,7 +42,9 @@ export const getInquiries = asyncHandler(
     };
 
     Object.keys(filters).forEach(
-      (key) => filters[key as keyof typeof filters] === undefined && delete filters[key as keyof typeof filters]
+      (key) =>
+        filters[key as keyof typeof filters] === undefined &&
+        delete filters[key as keyof typeof filters]
     );
 
     const result = await inquiryService.getInquiries(filters);

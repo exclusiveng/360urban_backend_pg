@@ -1,5 +1,11 @@
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
+import { User } from '../entities/User.js';
+import { Property } from '../entities/Property.js';
+import { PropertyImage } from '../entities/PropertyImage.js';
+import { Area } from '../entities/Area.js';
+import { ContactInquiry } from '../entities/ContactInquiry.js';
+import { Favorite } from '../entities/Favorite.js';
 
 dotenv.config();
 
@@ -18,9 +24,9 @@ export const AppDataSource = new DataSource({
         database: process.env.DB_NAME || '360urban_db',
         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
       }),
-  synchronize: false, // Always use migrations
+  synchronize: false,
   logging: process.env.NODE_ENV === 'development',
-  entities: ['src/entities/*.ts', 'dist/entities/*.js'],
+  entities: [User, Property, PropertyImage, Area, ContactInquiry, Favorite],
   migrations: ['src/migrations/*.ts', 'dist/migrations/*.js'],
   subscribers: [],
 });
