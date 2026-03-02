@@ -8,31 +8,12 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
+import { PropertyCategory, PropertyStatus, PropertyType } from './constants.js';
 import { User } from './User.js';
 import { Area } from './Area.js';
 import { PropertyImage } from './PropertyImage.js';
 import { Favorite } from './Favorite.js';
 import { ContactInquiry } from './ContactInquiry.js';
-
-export enum PropertyCategory {
-  RENT = 'Rent',
-  SALE = 'Sale',
-  LAND = 'Land',
-}
-
-export enum PropertyStatus {
-  AVAILABLE = 'Available',
-  RENTED = 'Rented',
-  SOLD = 'Sold',
-}
-
-export enum PropertyType {
-  FLAT = 'Flat',
-  DUPLEX = 'Duplex',
-  HOUSE = 'House',
-  LAND = 'Land',
-  SELF_CONTAIN = 'Self-Contain',
-}
 
 @Entity('properties')
 export class Property {

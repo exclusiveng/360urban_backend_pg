@@ -6,14 +6,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { InquiryStatus } from './constants.js';
 import { Property } from './Property.js';
 import { User } from './User.js';
-
-export enum InquiryStatus {
-  PENDING = 'Pending',
-  CONTACTED = 'Contacted',
-  CLOSED = 'Closed',
-}
 
 @Entity('contact_inquiries')
 export class ContactInquiry {

@@ -6,14 +6,10 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { UserRole } from './constants.js';
 import { Property } from './Property.js';
 import { ContactInquiry } from './ContactInquiry.js';
 import { Favorite } from './Favorite.js';
-
-export enum UserRole {
-  ADMIN = 'admin',
-  AGENT = 'agent',
-}
 
 @Entity('users')
 export class User {
