@@ -36,8 +36,11 @@ export const AppDataSource = new DataSource({
             : false,
       }),
   synchronize: false,
+  connectTimeoutMS: 30000,
   logging: process.env.NODE_ENV === 'development',
   entities: [User, Property, PropertyImage, Area, ContactInquiry, Favorite],
-  migrations: ['src/migrations/*.ts', 'dist/migrations/*.js'],
+  migrations: [
+    process.env.NODE_ENV === 'production' ? 'dist/migrations/*.js' : 'src/migrations/*.ts',
+  ],
   subscribers: [],
 });
