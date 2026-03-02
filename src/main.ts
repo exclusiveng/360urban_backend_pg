@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
@@ -11,15 +11,14 @@ import propertyRoutes from './routes/propertyRoutes.js';
 import areaRoutes from './routes/areaRoutes.js';
 import favoriteRoutes from './routes/favoriteRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
-
+import { setupCronJobs } from './utils/cron.js';
 
 const app = express();
 
 // Security middleware
-// Security middleware
 app.use(
   helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
   })
 );
 app.use(
@@ -78,6 +77,9 @@ const startServer = async () => {
       console.log(`✓ Server running on http://localhost:${PORT}`);
       console.log(`✓ Environment: ${config.node_env}`);
     });
+
+    // Start cron jobs
+    setupCronJobs();
   } catch (error) {
     console.error('✗ Failed to start server:', error);
     process.exit(1);
